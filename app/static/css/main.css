@@ -1,64 +1,93 @@
+/* On mouse hover, lighten state color */
+path:hover {
+  fill-opacity: .7;
+}
+
+/* Style for Custom Tooltip */
+/*div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: white;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}*/
+        
+/* Legend Font Style */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #444;
+  font: 11px sans-serif;
 }
- 
-/*
- * Create dark grey header with a white logo
- */
-  
-header {
-  background-color: #2B2B2B;
-  height: 35px;
-  width: 100%;
-  opacity: .9;
-  margin-bottom: 10px;
+        
+/* Legend Position Style */
+.legend {
+  position:absolute;
+  left:800px;
+  top:350px;
 }
- 
-header h1.logo {
-  margin: 0;
-  font-size: 1.7em;
-  color: #fff;
-  text-transform: uppercase;
-  float: left;
+
+.graph {
+  width: 250px;
+  height: 550px;
+  border: 10px solid black;
+  display: inline-block;
+  vertical-align: top;
 }
- 
-header h1.logo:hover {
-  color: #fff;
-  text-decoration: none;
+
+#mapContainer {
+  width: 960px; 
+  height: 500px;
+  border: 10px solid red;
+  display: inline-block;
+  vertical-align: top;
 }
- 
-/*
- * Center the body content
- */
-  
-.container {
-  width: 940px;
-  margin: 0 auto;
+
+/* 8888888888 */
+
+
+
+svg {
+  font: 10px sans-serif;
 }
- 
-div.jumbo {
-  padding: 10px 0 30px 0;
-  background-color: #eeeeee;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
+
+.y.axis path {
+  display: none;
 }
- 
-h2 {
-  font-size: 3em;
-  margin-top: 40px;
-  text-align: center;
-  letter-spacing: -2px;
+
+.y.axis line {
+  stroke: #fff;
+  stroke-opacity: .2;
+  shape-rendering: crispEdges;
 }
- 
-h3 {
-  font-size: 1.7em;
-  font-weight: 100;
-  margin-top: 30px;
-  text-align: center;
-  letter-spacing: -1px;
-  color: #999;
+
+.y.axis .zero line {
+  stroke: #000;
+  stroke-opacity: 1;
 }
+
+.title {
+  font: 300 78px Helvetica Neue;
+  fill: #666;
+}
+
+.birthyear,
+.age {
+  text-anchor: middle;
+}
+
+.birthyear {
+  fill: #fff;
+}
+
+rect {
+  fill-opacity: .6;
+  fill: #e377c2;
+}
+
+rect:first-child {
+  fill: #1f77b4;
+}
+
