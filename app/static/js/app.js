@@ -11,8 +11,6 @@ http://bl.ocks.org/mbostock/3888852  */
 
 // function everything(statesLived, citiesLived, unitedStates) {
 function everything(kwargs) {
-
-		
 	//Width and height of map
 	var width = 960;
 	var height = 500;
@@ -45,121 +43,122 @@ function everything(kwargs) {
 	//     		.attr("class", "tooltip")               
 	//     		.style("opacity", 0);
 
-	
-	color.domain([0,1,2,3]); // setting the range of the input data
+	d3.csv(kwargs.voting_data, function(voting_data) {
+		color.domain([0,1,2,3]); // setting the range of the input data
 
-	// Load GeoJSON data and merge with states data
-	d3.json(kwargs.the_map, function(json) {
+		// Load GeoJSON data and merge with states data
+		d3.json(kwargs.the_map, function(json_map) {
+			// Loop through each state data value in the .csv file
+			for (var i = 0; i < voting_data.length; i++) {
+				// console.log(json_map.features[i]);
+				// Grab State Name
+				var dataState = voting_data[i].state;
 
-		// Loop through each state data value in the .csv file
-		for (var i = 0; i < data.length; i++) {
+				// Grab data value 
+				var dataValue = voting_data[i].poll_approve;
 
-			// Grab State Name
-			var dataState = data[i].state;
-			dataState = "Foobar"
+				// Find the corresponding state inside the GeoJSON
+				for (var j = 0; j < json_map.features.length; j++)  {
+					var jsonState = json_map.features[j].properties.name;
 
-			// Grab data value 
-			var dataValue = data[i].visited;
-
-			// Find the corresponding state inside the GeoJSON
-			for (var j = 0; j < json.features.length; j++)  {
-				var jsonState = json.features[j].properties.name;
-
-				if (dataState == jsonState) {
-
-				// Copy the data value into the JSON
-				json.features[j].properties.visited = dataValue; 
-
-				// Stop looking through the JSON
-				break;
+					// Check if this is the right state, if so, copy the data value into the JSON
+					if (dataState == jsonState) {
+						json_map.features[j].properties.leftist = dataValue; 
+						break; // stop looking through the JSON
+					}
 				}
 			}
-		}
 
-		function mouseOver_state(d) {
-			dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
-			d["the_data"] = dataset
-			graph.changeGraph("graphTemp", d, kwargs.population);
-		}
+			function mouseOver_state(d) {
+				dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+				d["the_data"] = dataset
+				graph.changeGraph("graphTemp", d, kwargs.population);
+			}
 
-		function mouseOut_state() {
-			// graph.deleteGraph("graphTemp");
-		}
+			function mouseOut_state() {
+				// graph.deleteGraph("graphTemp");
+			}
 
-		function mouseClick_state(d) {
-			dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
-			d["the_data"] = dataset
-			graph.changeGraph("graphPerm", d, kwargs.population);
-		}
-				
-		// Bind the data to the SVG and create one path per GeoJSON feature
-		svg.selectAll("path")
-			.data(json.features)
-			.enter()
-			.append("path")
-			.attr("d", path)
-			.style("stroke", "#fff")
-			.style("stroke-width", "1")
-			.style("fill", function(d) {
-				// Get data value
-				var value = d.properties.visited;
-				if (value) {
-					//If value exists…
-					return color(value);
+			function mouseClick_state(d) {
+				dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+				d["the_data"] = dataset
+				graph.changeGraph("graphPerm", d, kwargs.population);
+			}
+
+			function interpolateColor(frac) {
+				frac = +frac;
+				console.log(frac);
+				// 5, 21, 252, to 252, 38, 5 
+				if(frac) {
+					var reds = d3.scale.linear().domain([0, 1]).range([5, 252]);
+					var greens = d3.scale.linear().domain([0, 1]).range([21, 38]);
+					var blues = d3.scale.linear().domain([0, 1]).range([252, 5]);
+					console.log(reds(frac));
+					return "rgb(" + Math.floor(reds(frac)) + "," + Math.floor(greens(frac)) + "," + Math.floor(blues(frac)) +")";
 				} else {
-					//If value is undefined…
-					return "rgb(213,222,217)";
+					return "rgb(213,222,217)"; // Neutral gray color if there is no score
 				}
-			})
-			.on("mouseover", mouseOver_state)
-			.on("mouseout", mouseOut_state)
-			.on("click", mouseClick_state);
+			}
+					
+			// Bind the data to the SVG and create one path per GeoJSON feature
+			svg.selectAll("path")
+				.data(json_map.features)
+				.enter()
+				.append("path")
+				.attr("d", path)
+				.style("stroke", "#fff")
+				.style("stroke-width", "1")
+				.style("fill", function(d) {
+					// Get data value
+					var leftist = d.properties.leftist;
+					return interpolateColor(leftist);
+				})
+				.on("mouseover", mouseOver_state)
+				.on("mouseout", mouseOut_state)
+				.on("click", mouseClick_state);
 
-		// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-		// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-		// .on("mouseover", function(d) {      
-	 //    	div.transition()        
-	 //      	   .duration(200)      
-	 //           .style("opacity", .9);      
-	 //           div.text(d.place)
-	 //           .style("left", (d3.event.pageX) + "px")     
-	 //           .style("top", (d3.event.pageY - 28) + "px");    
-		// })   
+			// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
+			// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
+			// .on("mouseover", function(d) {      
+		 //    	div.transition()        
+		 //      	   .duration(200)      
+		 //           .style("opacity", .9);      
+		 //           div.text(d.place)
+		 //           .style("left", (d3.event.pageX) + "px")     
+		 //           .style("top", (d3.event.pageY - 28) + "px");    
+			// })   
 
-	 //    // fade out tooltip on mouse out               
-	 //    .on("mouseout", function(d) {       
-	 //        div.transition()        
-	 //           .duration(500)      
-	 //           .style("opacity", 0);   
-	 //    });
-	
-	        
-	// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-	// var legend = d3.select("body").append("svg")
-	// 	.attr("class", "legend")
-	// 	.attr("width", 140)
-	// 	.attr("height", 200)
-	// 	.selectAll("g")
-	// 	.data(color.domain().slice().reverse())
-	// 	.enter()
-	// 	.append("g")
-	// 	.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+		 //    // fade out tooltip on mouse out               
+		 //    .on("mouseout", function(d) {       
+		 //        div.transition()        
+		 //           .duration(500)      
+		 //           .style("opacity", 0);   
+		 //    });
+		
+		        
+		// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
+		// var legend = d3.select("body").append("svg")
+		// 	.attr("class", "legend")
+		// 	.attr("width", 140)
+		// 	.attr("height", 200)
+		// 	.selectAll("g")
+		// 	.data(color.domain().slice().reverse())
+		// 	.enter()
+		// 	.append("g")
+		// 	.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
- //  	legend.append("rect")
- //   		  .attr("width", 18)
- //   		  .attr("height", 18)
- //   		  .style("fill", color);
+	 //  	legend.append("rect")
+	 //   		  .attr("width", 18)
+	 //   		  .attr("height", 18)
+	 //   		  .style("fill", color);
 
- //  	legend.append("text")
- //  		  .data(legendText)
- //      	  .attr("x", 24)
- //      	  .attr("y", 9)
- //      	  .attr("dy", ".35em")
- //      	  .text(function(d) { return d; });
-	});
-
-	
-
-	
+	 //  	legend.append("text")
+	 //  		  .data(legendText)
+	 //      	  .attr("x", 24)
+	 //      	  .attr("y", 9)
+	 //      	  .attr("dy", ".35em")
+	 //      	  .text(function(d) { return d; });
+		});
+	});	
 
 }
