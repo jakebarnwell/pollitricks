@@ -60,4 +60,4 @@ with open("static/resources/random-data.csv", "w") as outfile:
 		oneTweetApprove = random.random()
 		onePollApprove = random.random()
 		outfile.write("{},{},{},{}\n".format(fullname, candidates[0], oneTweetApprove, onePollApprove))
-		outfile.write("{},{},{},{}\n".format(fullname, candidates[1], oneTweetApprove, onePollApprove))
+		outfile.write("{},{},{},{}\n".format(fullname, candidates[1], 1-oneTweetApprove, 1-onePollApprove))

@@ -30,20 +30,22 @@ body {
 }
 
 .graph {
-  width: 250px;
-  height: 550px;
-  border: 10px solid black;
+  width: 220px;
+  height: 450px;
+  /*border: 10px solid black;*/
   display: inline-block;
   vertical-align: top;
   text-align: center; /* forces svg to align center */
+  margin-top: 30px;
 }
 
 #mapContainer {
   width: 960px; 
   height: 500px;
-  border: 10px solid red;
+  /*border: 10px solid red;*/
   display: inline-block;
   vertical-align: top;
+  margin-top: 30px;
 }
 
 .graph svg rect {
@@ -74,7 +76,7 @@ svg {
 }
 
 .title {
-  font: 300 78px Helvetica Neue;
+  font: 300 24px Helvetica Neue;
   fill: #666;
 }
 

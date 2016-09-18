@@ -12,8 +12,8 @@ http://bl.ocks.org/mbostock/3888852  */
 // function everything(statesLived, citiesLived, unitedStates) {
 function everything(kwargs) {
 	//Width and height of map
-	var width = 960;
-	var height = 500;
+	var width = $("#mapContainer").width();
+	var height = $("#mapContainer").height();
 
 	// D3 Projection
 	var projection = d3.geo.albersUsa()
@@ -70,15 +70,15 @@ function everything(kwargs) {
 			}
 
 			function format_graph_data(d) {
-				var the_data = [0, 0, 0, 0];
+				var the_data = [0, 0, 0, 0, d.properties.name];
 				for(var i = 0; i < voting_data.length; i++) {
 					if(d.properties.name === voting_data[i].state) {
 						if(voting_data[i].candidate === "Hillary Clinton") {
 							the_data[0] = +voting_data[i].poll_approve;
 							the_data[1] = +voting_data[i].twitter_approve;
 						} else {
-							the_data[2] = 1 - (+voting_data[i].poll_approve);
-							the_data[3] = 1 - (+voting_data[i].twitter_approve);
+							the_data[2] = +voting_data[i].poll_approve;
+							the_data[3] = +voting_data[i].twitter_approve;
 						}
 					}
 				}

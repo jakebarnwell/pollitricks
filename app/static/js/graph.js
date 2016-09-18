@@ -4,7 +4,7 @@ graph = {
 	
 	changeGraph: function(graphId, data, population) {
 		
-		var margin = {top: 20, side: 10, bottom: 20},
+		var margin = {top: 40, side: 10, bottom: 10},
 		    width = $("#" + graphId).width() - 2 * margin.side;
 		    height = $("#" + graphId).height() - margin.top - margin.bottom;
 
@@ -13,14 +13,17 @@ graph = {
 		var smallBarWidth = (2 / 3) * largeBarWidth;
 		var smallBarOffsetFromLarge = (largeBarWidth - smallBarWidth) / 2;
 
-		var dataset = data.the_data;
+		var state_name = data.the_data[4];
+		var dataset = data.the_data.slice(0, 4);
 
 		var calculate_height = function(frac) {
+			// make sure to offset by the top margin
 			return frac * height;
 		}
 
 		var calculate_y = function(frac) {
-			return height - calculate_height(frac);
+			// add top margin here since we added it to the y coordinate which pushes down
+			return height - calculate_height(frac) + margin.top;
 		}
 
 		if(dataset.length != 4) {
@@ -28,16 +31,22 @@ graph = {
 		}
 
 		if(graph_exists[graphId] === true) {
-        	d3.select("#" + graphId + " svg").selectAll("rect").data(dataset)
+			var svg = d3.select("#" + graphId + " svg")
+			svg.selectAll("rect").data(dataset)
 				.transition()
  				.duration(100 + Math.random() * 150)
 				.attr("height", calculate_height)
 				.attr("y", calculate_y);
+			var title = svg.select("text")
+		    	.text(state_name);
+
+			title.attr("dx", (width - $("#" + graphId + " text").width()) / 2 + "px");
+
 			return;
 		}
 
-		// Create the SVG element 
-		var svg = d3.selectAll("#" + graphId)
+		// Create the SVG graph
+		var svg = d3.select("#" + graphId)
             .append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -76,6 +85,12 @@ graph = {
 			.attr("y", calculate_y)
 			.attr("height", calculate_height);
 
+		// Create state title header
+		var title = svg.append("text")
+		    .attr("class", "title")
+		    .attr("dy", 0.5 * margin.top + "px")
+		    .text(state_name);
+		title.attr("dx", (width - $("#" + graphId + " text").width()) / 2 + "px");
 
 		graph_exists[graphId] = true;
 
