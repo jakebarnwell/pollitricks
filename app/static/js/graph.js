@@ -1,10 +1,8 @@
-graph_exists = {"temp": false, "perm": false};
+var graph_exists = {};
 
 graph = {
 	
 	changeGraph: function(graphId, data, population) {
-		// $("#" + graphId).css("background-color","red");
-
 		var margin = {top: 20, side: 10, bottom: 20},
 		    width = $("#" + graphId).width() - 2 * margin.side;
 		    height = $("#" + graphId).height() - margin.top - margin.bottom;
@@ -14,30 +12,30 @@ graph = {
 		var smallBarWidth = (2 / 3) * largeBarWidth;
 		var smallBarOffsetFromLarge = (largeBarWidth - smallBarWidth) / 2;
 
-		// var x = d3.scale.linear()
-		//     .range([barWidth / 2, width - barWidth / 2]);
-
-		// var y = d3.scale.linear()
-		//     .range([height, 0]);
-
-		// var yAxis = d3.svg.axis()
-		//     .scale(y)
-		//     .orient("right")
-		//     .tickSize(-width)
-		//     .tickFormat(function(d) { return Math.round(d / 1e6) + "M"; });
-
-		// An SVG element 
-		var svg = d3.selectAll("#" + graphId)
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
-		var dataset = [55, 34, 45, 66];
-		dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+		var dataset = data.the_data;
 
 		if(dataset.length != 4) {
 			alert("Error: dataset has " + dataset.length + " elements. It should have 4.");
 		}
+
+		if(graph_exists[graphId] === true) {
+        	d3.select("#" + graphId + " svg").selectAll("rect").data(dataset)
+				.transition()
+ 				.duration(100 + Math.random() * 150)
+				.attr("height", function(d) {
+					return d;
+				})
+				.attr("y", function(d) {
+					return height - d;
+				});
+			return;
+		}
+
+		// Create the SVG element 
+		var svg = d3.selectAll("#" + graphId)
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
 		svg.selectAll("rect")
 			.data(dataset)
@@ -59,9 +57,6 @@ graph = {
 					return nominal_x + smallBarOffsetFromLarge;
 				}
 			})
-			.attr("y", function(d) {
-				return height - d;
-			})
 			.attr("width", function(d, i) {
 				if(i == 0 || i == 2) {
 					return largeBarWidth;
@@ -69,9 +64,23 @@ graph = {
 					return smallBarWidth;
 				}
 			})
+			.attr("y", function(d) {
+				return height;
+			})
+			.attr("height", function(d) {
+				return 0;
+			})
+			.transition().delay(100)
+ 			.duration(200)
+			.attr("y", function(d) {
+				return height - d;
+			})
 			.attr("height", function(d) {
 				return d;
-			});
+			})
+
+
+		graph_exists[graphId] = true;
 
 		// svg.selectAll("text")
 		//    .data(dataset)
@@ -162,7 +171,7 @@ graph = {
 		//       .attr("y", height + 4)
 		//       .attr("dy", ".71em")
 		//       .text(function(age) { return age; });
-		  
+		
 	},
 	deleteGraph: function(graphId) {
 		$("#" + graphId + " svg").remove();

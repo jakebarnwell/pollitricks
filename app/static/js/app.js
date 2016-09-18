@@ -77,18 +77,19 @@ function everything(kwargs) {
 	}
 
 	function mouseOver_state(d) {
-		console.log(d);
-		if(!graph_exists["temp"]) {
-			graph.changeGraph("graphTemp", d, kwargs.population);
-			graph_exists["temp"] = true;
-		}
+		dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+		d["the_data"] = dataset
+		graph.changeGraph("graphTemp", d, kwargs.population);
 	}
 
 	function mouseOut_state() {
-		if(graph_exists["temp"]) {
-			graph.deleteGraph("graphTemp");
-			graph_exists["temp"] = false;
-		}
+		// graph.deleteGraph("graphTemp");
+	}
+
+	function mouseClick_state(d) {
+		dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+		d["the_data"] = dataset
+		graph.changeGraph("graphPerm", d, kwargs.population);
 	}
 			
 	// Bind the data to the SVG and create one path per GeoJSON feature
@@ -111,27 +112,8 @@ function everything(kwargs) {
 			}
 		})
 		.on("mouseover", mouseOver_state)
-		.on("mouseout", mouseOut_state);
-
-			 
-	// Map the cities I have lived in!
-	d3.csv(kwargs.cities, function(data) {
-
-	svg.selectAll("circle")
-		.data(data)
-		.enter()
-		.append("circle")
-		.attr("cx", function(d) {
-			return projection([d.lon, d.lat])[0];
-		})
-		.attr("cy", function(d) {
-			return projection([d.lon, d.lat])[1];
-		})
-		.attr("r", function(d) {
-			return Math.sqrt(d.years) * 4;
-		})
-			.style("fill", "rgb(217,91,67)")	
-			.style("opacity", 0.85)	
+		.on("mouseout", mouseOut_state)
+		.on("click", mouseClick_state);
 
 		// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
 		// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
@@ -150,7 +132,7 @@ function everything(kwargs) {
 	 //           .duration(500)      
 	 //           .style("opacity", 0);   
 	 //    });
-	});
+	
 	        
 	// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
 	var legend = d3.select("body").append("svg")
