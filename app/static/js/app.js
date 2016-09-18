@@ -45,75 +45,75 @@ function everything(kwargs) {
 	//     		.attr("class", "tooltip")               
 	//     		.style("opacity", 0);
 
-	// Load in my states data!
-	d3.csv(kwargs.states, function(data) {
+	
 	color.domain([0,1,2,3]); // setting the range of the input data
 
 	// Load GeoJSON data and merge with states data
 	d3.json(kwargs.the_map, function(json) {
 
-	// Loop through each state data value in the .csv file
-	for (var i = 0; i < data.length; i++) {
+		// Loop through each state data value in the .csv file
+		for (var i = 0; i < data.length; i++) {
 
-		// Grab State Name
-		var dataState = data[i].state;
+			// Grab State Name
+			var dataState = data[i].state;
+			dataState = "Foobar"
 
-		// Grab data value 
-		var dataValue = data[i].visited;
+			// Grab data value 
+			var dataValue = data[i].visited;
 
-		// Find the corresponding state inside the GeoJSON
-		for (var j = 0; j < json.features.length; j++)  {
-			var jsonState = json.features[j].properties.name;
+			// Find the corresponding state inside the GeoJSON
+			for (var j = 0; j < json.features.length; j++)  {
+				var jsonState = json.features[j].properties.name;
 
-			if (dataState == jsonState) {
+				if (dataState == jsonState) {
 
-			// Copy the data value into the JSON
-			json.features[j].properties.visited = dataValue; 
+				// Copy the data value into the JSON
+				json.features[j].properties.visited = dataValue; 
 
-			// Stop looking through the JSON
-			break;
+				// Stop looking through the JSON
+				break;
+				}
 			}
 		}
-	}
 
-	function mouseOver_state(d) {
-		dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
-		d["the_data"] = dataset
-		graph.changeGraph("graphTemp", d, kwargs.population);
-	}
+		function mouseOver_state(d) {
+			dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+			d["the_data"] = dataset
+			graph.changeGraph("graphTemp", d, kwargs.population);
+		}
 
-	function mouseOut_state() {
-		// graph.deleteGraph("graphTemp");
-	}
+		function mouseOut_state() {
+			// graph.deleteGraph("graphTemp");
+		}
 
-	function mouseClick_state(d) {
-		dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
-		d["the_data"] = dataset
-		graph.changeGraph("graphPerm", d, kwargs.population);
-	}
-			
-	// Bind the data to the SVG and create one path per GeoJSON feature
-	svg.selectAll("path")
-		.data(json.features)
-		.enter()
-		.append("path")
-		.attr("d", path)
-		.style("stroke", "#fff")
-		.style("stroke-width", "1")
-		.style("fill", function(d) {
-			// Get data value
-			var value = d.properties.visited;
-			if (value) {
-				//If value exists…
-				return color(value);
-			} else {
-				//If value is undefined…
-				return "rgb(213,222,217)";
-			}
-		})
-		.on("mouseover", mouseOver_state)
-		.on("mouseout", mouseOut_state)
-		.on("click", mouseClick_state);
+		function mouseClick_state(d) {
+			dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
+			d["the_data"] = dataset
+			graph.changeGraph("graphPerm", d, kwargs.population);
+		}
+				
+		// Bind the data to the SVG and create one path per GeoJSON feature
+		svg.selectAll("path")
+			.data(json.features)
+			.enter()
+			.append("path")
+			.attr("d", path)
+			.style("stroke", "#fff")
+			.style("stroke-width", "1")
+			.style("fill", function(d) {
+				// Get data value
+				var value = d.properties.visited;
+				if (value) {
+					//If value exists…
+					return color(value);
+				} else {
+					//If value is undefined…
+					return "rgb(213,222,217)";
+				}
+			})
+			.on("mouseover", mouseOver_state)
+			.on("mouseout", mouseOut_state)
+			.on("click", mouseClick_state);
 
 		// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
 		// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
@@ -135,30 +135,30 @@ function everything(kwargs) {
 	
 	        
 	// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-	var legend = d3.select("body").append("svg")
-	      			.attr("class", "legend")
-	     			.attr("width", 140)
-	    			.attr("height", 200)
-	   				.selectAll("g")
-	   				.data(color.domain().slice().reverse())
-	   				.enter()
-	   				.append("g")
-	     			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+	// var legend = d3.select("body").append("svg")
+	// 	.attr("class", "legend")
+	// 	.attr("width", 140)
+	// 	.attr("height", 200)
+	// 	.selectAll("g")
+	// 	.data(color.domain().slice().reverse())
+	// 	.enter()
+	// 	.append("g")
+	// 	.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-	  	legend.append("rect")
-	   		  .attr("width", 18)
-	   		  .attr("height", 18)
-	   		  .style("fill", color);
+ //  	legend.append("rect")
+ //   		  .attr("width", 18)
+ //   		  .attr("height", 18)
+ //   		  .style("fill", color);
 
-	  	legend.append("text")
-	  		  .data(legendText)
-	      	  .attr("x", 24)
-	      	  .attr("y", 9)
-	      	  .attr("dy", ".35em")
-	      	  .text(function(d) { return d; });
-		});
-
+ //  	legend.append("text")
+ //  		  .data(legendText)
+ //      	  .attr("x", 24)
+ //      	  .attr("y", 9)
+ //      	  .attr("dy", ".35em")
+ //      	  .text(function(d) { return d; });
 	});
+
+	
 
 	
 
