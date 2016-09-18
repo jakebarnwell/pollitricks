@@ -11,9 +11,17 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
+	<div id="header">Twitter vs Poll Results by State</div>
+
 	<div id="mapContainer"></div>
 	<div class="graph" id="graphTemp"></div>
 	<div class="graph" id="graphPerm"></div>
+
+	<div id="instructions">
+		Each state's color roughly represents its political sway based on results from Twitter
+		and poll results. Mousing over a state gives more detailed information. Click on a 
+		state to freeze its detailed graph on the screen so you can compare it to other states.
+	</div>
 
 
 	<script type="text/javascript">

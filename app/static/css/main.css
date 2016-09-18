@@ -1,6 +1,10 @@
 /* On mouse hover, lighten state color */
 path:hover {
-  fill-opacity: .7;
+  fill-opacity: 1;
+}
+
+.translucent {
+  fill-opacity: .85;
 }
 
 /* Style for Custom Tooltip */
@@ -16,6 +20,21 @@ path:hover {
   border-radius: 8px;           
   pointer-events: none;         
 }*/
+
+#header {
+  font-size: 34px;
+  font-family: Helvetica, sans-serif; 
+  font-weight: 700;
+  text-align: center;
+}
+
+#instructions {
+  font-size: 18px;
+  font-family: Helvetica, sans-serif; 
+  font-weight: 300;
+  margin: 10px;
+  padding: 20px;
+}
         
 /* Legend Font Style */
 body {
@@ -30,13 +49,14 @@ body {
 }
 
 .graph {
-  width: 220px;
+  width: 240px;
   height: 450px;
   /*border: 10px solid black;*/
   display: inline-block;
   vertical-align: top;
   text-align: center; /* forces svg to align center */
   margin-top: 30px;
+  padding-top: 20px;
 }
 
 #mapContainer {

@@ -8,22 +8,88 @@ graph = {
 		    width = $("#" + graphId).width() - 2 * margin.side;
 		    height = $("#" + graphId).height() - margin.top - margin.bottom;
 
-		var largeBarPadding = 2;
+		var largeBarPadding = 3;
 		var largeBarWidth = width / 2 - largeBarPadding;
-		var smallBarWidth = (2 / 3) * largeBarWidth;
+		var smallBarWidth = (3 / 5) * largeBarWidth;
 		var smallBarOffsetFromLarge = (largeBarWidth - smallBarWidth) / 2;
 
 		var state_name = data.the_data[4];
 		var dataset = data.the_data.slice(0, 4);
 
-		var calculate_height = function(frac) {
+		var calculate_height = function(frac, init) {
 			// make sure to offset by the top margin
-			return frac * height;
+			if(init === true) {
+				return 0;
+			} else {
+				return frac * height;
+			}
 		}
 
-		var calculate_y = function(frac) {
+		var calculate_y = function(frac, init) {
 			// add top margin here since we added it to the y coordinate which pushes down
-			return height - calculate_height(frac) + margin.top;
+			return height - calculate_height(frac, init) + margin.top;
+		}
+
+		var calculate_x = function(d, i) {
+			var nominal_x = Math.floor(i / 2) * (width / 2);
+			if(i == 0 || i == 2) {
+				return nominal_x;
+			} else {
+				return nominal_x + smallBarOffsetFromLarge;
+			}
+		}
+
+		var get_label = function(d, i) {
+			var start = (i == 0 || i == 2) ? "Poll: " : "Twitter: " ;
+			var num = Math.round(d * 100) + "%";
+			return start + num
+		}
+
+		var _label_y_is_lower = function(d, i) {
+			var isPoll = (i == 0 || i == 2);
+			var leftSide = (i <= 1);
+
+			var pollVal, tweetVal;
+			if(leftSide) {
+				pollVal = dataset[0];
+				tweetVal = dataset[1];
+			} else {
+				pollVal = dataset[2];
+				tweetVal = dataset[3];
+			}
+
+			var isLower = (pollVal <= tweetVal && isPoll) || (pollVal > tweetVal && !isPoll);
+			return isLower;
+		}
+
+		var calculate_label_y = function(d, i) {
+			var isLower = _label_y_is_lower(d, i);
+			var nominal_y = calculate_y(d);
+
+			var calculated_final_pos;
+
+			// Note that adding to y pushes it *down*
+			if(isLower) {
+				calculated_final_pos = nominal_y + 12;
+			} else {
+				calculated_final_pos = nominal_y - 4;
+			}
+
+			// don't bother with max height since it won't ever collide with the title
+			return Math.min(calculated_final_pos, height + margin.top);
+		}
+
+		var calculate_label_x = function(d, i) {
+			return calculate_x(d, i) + 3;
+		}
+
+		var calculate_label_color = function(d, i) {
+			var isLower = _label_y_is_lower(d, i);
+			if(isLower) {
+				return "white";
+			} else {
+				return "black";
+			}
 		}
 
 		if(dataset.length != 4) {
@@ -37,10 +103,18 @@ graph = {
  				.duration(100 + Math.random() * 150)
 				.attr("height", calculate_height)
 				.attr("y", calculate_y);
-			var title = svg.select("text")
-		    	.text(state_name);
 
+			var title = svg.select(".text-title")
+		    	.text(state_name);
 			title.attr("dx", (width - $("#" + graphId + " text").width()) / 2 + "px");
+
+			svg.selectAll(".text-label")
+				.data(dataset)
+				.text(get_label)
+				.transition()
+				.duration(200)
+				.attr("y", calculate_label_y)
+				.attr("fill", calculate_label_color);
 
 			return;
 		}
@@ -63,14 +137,7 @@ graph = {
 					case 3: return "#af131d";
 				}
 			})
-			.attr("x", function(d, i) {
-				var nominal_x = Math.floor(i / 2) * (width / 2);
-				if(i == 0 || i == 2) {
-					return nominal_x;
-				} else {
-					return nominal_x + smallBarOffsetFromLarge;
-				}
-			})
+			.attr("x", calculate_x)
 			.attr("width", function(d, i) {
 				if(i == 0 || i == 2) {
 					return largeBarWidth;
@@ -78,8 +145,12 @@ graph = {
 					return smallBarWidth;
 				}
 			})
-			.attr("y", calculate_y)
-			.attr("height", calculate_height)
+			.attr("y", function(d) {
+				return calculate_y(d, true);
+			})
+			.attr("height", function(d) {
+				return calculate_height(d, true);
+			})
 			.transition().delay(100)
  			.duration(200)
 			.attr("y", calculate_y)
@@ -87,10 +158,25 @@ graph = {
 
 		// Create state title header
 		var title = svg.append("text")
-		    .attr("class", "title")
+			.classed("text-title", true)
+		    .classed("title", true)
 		    .attr("dy", 0.5 * margin.top + "px")
 		    .text(state_name);
 		title.attr("dx", (width - $("#" + graphId + " text").width()) / 2 + "px");
+
+		// Add text to the bars
+		svg.selectAll(".text-label")
+			.data(dataset)
+			.enter()
+			.append("text")
+			.text(get_label)
+			.classed("text-label", true)
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "11px")
+			.attr("x", calculate_label_x)
+			.attr("y", calculate_label_y)
+			.attr("fill", calculate_label_color)
+
 
 		graph_exists[graphId] = true;
 

@@ -50,7 +50,6 @@ function everything(kwargs) {
 		d3.json(kwargs.the_map, function(json_map) {
 			// Loop through each state data value in the .csv file
 			for (var i = 0; i < voting_data.length; i++) {
-				// console.log(json_map.features[i]);
 				// Grab State Name
 				var dataState = voting_data[i].state;
 
@@ -102,10 +101,11 @@ function everything(kwargs) {
 			function interpolateColor(frac) {
 				frac = +frac;
 				// 5, 21, 252, to 252, 38, 5 
+				// 54, 20, 224 to 224, 20, 20
 				if(frac) {
-					var reds = d3.scale.linear().domain([0, 1]).range([5, 252]);
-					var greens = d3.scale.linear().domain([0, 1]).range([21, 38]);
-					var blues = d3.scale.linear().domain([0, 1]).range([252, 5]);
+					var reds = d3.scale.linear().domain([0, 1]).range([54, 224]);
+					var greens = d3.scale.linear().domain([0, 1]).range([20, 20]);
+					var blues = d3.scale.linear().domain([0, 1]).range([224, 20]);
 					return "rgb(" + Math.floor(reds(frac)) + "," + Math.floor(greens(frac)) + "," + Math.floor(blues(frac)) +")";
 				} else {
 					return "rgb(213,222,217)"; // Neutral gray color if there is no score
@@ -125,6 +125,7 @@ function everything(kwargs) {
 					var leftist = d.properties.leftist;
 					return interpolateColor(leftist);
 				})
+				.classed('translucent', true)
 				.on("mouseover", mouseOver_state)
 				.on("mouseout", mouseOut_state)
 				.on("click", mouseClick_state);
