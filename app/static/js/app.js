@@ -78,11 +78,17 @@ function everything(kwargs) {
 
 	function mouseOver_state(d) {
 		console.log(d);
-		graph.changeGraph($("#graphTemp"), d, kwargs.population)
+		if(!graph_exists["temp"]) {
+			graph.changeGraph("graphTemp", d, kwargs.population);
+			graph_exists["temp"] = true;
+		}
 	}
 
 	function mouseOut_state() {
-		;
+		if(graph_exists["temp"]) {
+			graph.deleteGraph("graphTemp");
+			graph_exists["temp"] = false;
+		}
 	}
 			
 	// Bind the data to the SVG and create one path per GeoJSON feature

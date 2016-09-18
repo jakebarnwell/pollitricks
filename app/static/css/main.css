@@ -35,6 +35,7 @@ body {
   border: 10px solid black;
   display: inline-block;
   vertical-align: top;
+  text-align: center; /* forces svg to align center */
 }
 
 #mapContainer {
@@ -43,6 +44,10 @@ body {
   border: 10px solid red;
   display: inline-block;
   vertical-align: top;
+}
+
+.graph svg rect {
+  fill-opacity: .7;
 }
 
 /* 8888888888 */
@@ -82,12 +87,4 @@ svg {
   fill: #fff;
 }
 
-rect {
-  fill-opacity: .6;
-  fill: #e377c2;
-}
-
-rect:first-child {
-  fill: #1f77b4;
-}
 
