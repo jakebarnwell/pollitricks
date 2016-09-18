@@ -4,7 +4,7 @@ graph = {
 	
 	changeGraph: function(graphId, data, population) {
 		
-		var margin = {top: 40, side: 10, bottom: 10},
+		var margin = {top: 40, side: 10, bottom: 30},
 		    width = $("#" + graphId).width() - 2 * margin.side;
 		    height = $("#" + graphId).height() - margin.top - margin.bottom;
 
@@ -176,6 +176,21 @@ graph = {
 			.attr("x", calculate_label_x)
 			.attr("y", calculate_label_y)
 			.attr("fill", calculate_label_color)
+
+		// Add hilary/donald to below the bars
+		// svg.selectAll(".text-candidate")
+		// 	.data(["Clinton", "Trump", "Clinton", "Trump"])
+		// 	.enter()
+		// 	.append("text")
+		// 	.text(function(d) {
+		// 		return d;
+		// 	})
+		// 	.classed("text-candidate", true)
+		// 	.attr("font-family", "sans-serif")
+		// 	.attr("font-size", "11px")
+		// 	.attr("x", calculate_label_x)
+		// 	.attr("y", height + margin.top + 20)
+		// 	.attr("fill", "black")
 
 
 		graph_exists[graphId] = true;
