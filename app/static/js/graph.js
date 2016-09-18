@@ -3,6 +3,7 @@ var graph_exists = {};
 graph = {
 	
 	changeGraph: function(graphId, data, population) {
+		
 		var margin = {top: 20, side: 10, bottom: 20},
 		    width = $("#" + graphId).width() - 2 * margin.side;
 		    height = $("#" + graphId).height() - margin.top - margin.bottom;
@@ -14,6 +15,14 @@ graph = {
 
 		var dataset = data.the_data;
 
+		var calculate_height = function(frac) {
+			return frac * height;
+		}
+
+		var calculate_y = function(frac) {
+			return height - calculate_height(frac);
+		}
+
 		if(dataset.length != 4) {
 			alert("Error: dataset has " + dataset.length + " elements. It should have 4.");
 		}
@@ -22,12 +31,8 @@ graph = {
         	d3.select("#" + graphId + " svg").selectAll("rect").data(dataset)
 				.transition()
  				.duration(100 + Math.random() * 150)
-				.attr("height", function(d) {
-					return d;
-				})
-				.attr("y", function(d) {
-					return height - d;
-				});
+				.attr("height", calculate_height)
+				.attr("y", calculate_y);
 			return;
 		}
 
@@ -64,20 +69,12 @@ graph = {
 					return smallBarWidth;
 				}
 			})
-			.attr("y", function(d) {
-				return height;
-			})
-			.attr("height", function(d) {
-				return 0;
-			})
+			.attr("y", calculate_y)
+			.attr("height", calculate_height)
 			.transition().delay(100)
  			.duration(200)
-			.attr("y", function(d) {
-				return height - d;
-			})
-			.attr("height", function(d) {
-				return d;
-			})
+			.attr("y", calculate_y)
+			.attr("height", calculate_height);
 
 
 		graph_exists[graphId] = true;
@@ -172,11 +169,6 @@ graph = {
 		//       .attr("dy", ".71em")
 		//       .text(function(age) { return age; });
 		
-	},
-	deleteGraph: function(graphId) {
-		$("#" + graphId + " svg").remove();
-		// d3.select("#" + graphId + " svg").transition().attr("height", 300);
 	}
-
 
 }

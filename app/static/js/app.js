@@ -69,31 +69,43 @@ function everything(kwargs) {
 				}
 			}
 
+			function format_graph_data(d) {
+				var the_data = [0, 0, 0, 0];
+				for(var i = 0; i < voting_data.length; i++) {
+					if(d.properties.name === voting_data[i].state) {
+						if(voting_data[i].candidate === "Hillary Clinton") {
+							the_data[0] = +voting_data[i].poll_approve;
+							the_data[1] = +voting_data[i].twitter_approve;
+						} else {
+							the_data[2] = 1 - (+voting_data[i].poll_approve);
+							the_data[3] = 1 - (+voting_data[i].twitter_approve);
+						}
+					}
+				}
+				return the_data;
+			}
+
 			function mouseOver_state(d) {
-				dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
-				d["the_data"] = dataset
+				d["the_data"] = format_graph_data(d);
 				graph.changeGraph("graphTemp", d, kwargs.population);
 			}
 
 			function mouseOut_state() {
-				// graph.deleteGraph("graphTemp");
+				;
 			}
 
 			function mouseClick_state(d) {
-				dataset = [0, 0, 0, 0].map(function(e) {return Math.floor(Math.random() * 100);});
-				d["the_data"] = dataset
+				d["the_data"] = format_graph_data(d);
 				graph.changeGraph("graphPerm", d, kwargs.population);
 			}
 
 			function interpolateColor(frac) {
 				frac = +frac;
-				console.log(frac);
 				// 5, 21, 252, to 252, 38, 5 
 				if(frac) {
 					var reds = d3.scale.linear().domain([0, 1]).range([5, 252]);
 					var greens = d3.scale.linear().domain([0, 1]).range([21, 38]);
 					var blues = d3.scale.linear().domain([0, 1]).range([252, 5]);
-					console.log(reds(frac));
 					return "rgb(" + Math.floor(reds(frac)) + "," + Math.floor(greens(frac)) + "," + Math.floor(blues(frac)) +")";
 				} else {
 					return "rgb(213,222,217)"; // Neutral gray color if there is no score
