@@ -1,0 +1,205 @@
+{
+    "source": "FiveThirtyEight 2016-09-18",
+    "data": {
+	"AK": {
+	    "Hillary Clinton": 0.826,
+	    "Donald Trump": 0.169
+	},
+	"AL": {
+	    "Hillary Clinton": 0.004,
+	    "Donald Trump": 0.996
+	},
+	"AR": {
+	    "Hillary Clinton": 0.025,
+	    "Donald Trump": 0.975
+	},
+	"AZ": {
+	    "Hillary Clinton": 0.287,
+	    "Donald Trump": 0.712
+	},
+	"CA": {
+	    "Hillary Clinton": 0.004,
+	    "Donald Trump": 0.996
+	},
+	"CO": {
+	    "Hillary Clinton": 0.666,
+	    "Donald Trump": 0.332
+	},
+	"CT": {
+	    "Hillary Clinton": 0.920,
+	    "Donald Trump": 0.080
+	},
+	"DE": {
+	    "Hillary Clinton": 0.831,
+	    "Donald Trump": 0.168
+	},
+	"FL": {
+	    "Hillary Clinton": 0.494,
+	    "Donald Trump": 0.506
+	},
+	"GA": {
+	    "Hillary Clinton": 0.225,
+	    "Donald Trump": 0.775
+	},
+	"HI": {
+	    "Hillary Clinton": 0.986,
+	    "Donald Trump": 0.014
+	},
+	"IA": {
+	    "Hillary Clinton": 0.385,
+	    "Donald Trump": 0.614
+	},
+	"ID": {
+	    "Hillary Clinton": 0.011,
+	    "Donald Trump": 0.987
+	},
+	"IL": {
+	    "Hillary Clinton": 0.949,
+	    "Donald Trump": 0.051
+	},
+	"IN": {
+	    "Hillary Clinton": 0.060,
+	    "Donald Trump": 0.939
+	},
+	"KS": {
+	    "Hillary Clinton": 0.090,
+	    "Donald Trump": 0.909
+	},
+	"KY": {
+	    "Hillary Clinton": 0.021,
+	    "Donald Trump": 0.979
+	},
+	"LA": {
+	    "Hillary Clinton": 0.021,
+	    "Donald Trump": 0.979
+	},
+	"MA": {
+	    "Hillary Clinton": 0.980,
+	    "Donald Trump": 0.020
+	},
+	"MD": {
+	    "Hillary Clinton": 0.995,
+	    "Donald Trump": 0.005
+	},
+	"ME": {
+	    "Hillary Clinton": 0.748,
+	    "Donald Trump": 0.251
+	},
+	"MI": {
+	    "Hillary Clinton": 0.715,
+	    "Donald Trump": 0.285
+	},
+	"MN": {
+	    "Hillary Clinton": 0.792,
+	    "Donald Trump": 0.206
+	},
+	"MO": {
+	    "Hillary Clinton": 0.125,
+	    "Donald Trump": 0.874
+	},
+	"MS": {
+	    "Hillary Clinton": 0.034,
+	    "Donald Trump": 0.966
+	},
+	"MT": {
+	    "Hillary Clinton": 0.136,
+	    "Donald Trump": 0.861
+	},
+	"NC": {
+	    "Hillary Clinton": 0.475,
+	    "Donald Trump": 0.525
+	},
+	"ND": {
+	    "Hillary Clinton": 0.045,
+	    "Donald Trump": 0.953
+	},
+	"NE": {
+	    "Hillary Clinton": 0.043,
+	    "Donald Trump": 0.956
+	},
+	"NH": {
+	    "Hillary Clinton": 0.645,
+	    "Donald Trump": 0.354
+	},
+	"NJ": {
+	    "Hillary Clinton": 0.871,
+	    "Donald Trump": 0.129
+	},
+	"NM": {
+	    "Hillary Clinton": 0.800,
+	    "Donald Trump": 0.186
+	},
+	"NV": {
+	    "Hillary Clinton": 0.518,
+	    "Donald Trump": 0.482
+	},
+	"NY": {
+	    "Hillary Clinton": 0.981,
+	    "Donald Trump": 0.019
+	},
+	"OH": {
+	    "Hillary Clinton": 0.447,
+	    "Donald Trump": 0.552
+	},
+	"OK": {
+	    "Hillary Clinton": 0.007,
+	    "Donald Trump": 0.993
+	},
+	"OR": {
+	    "Hillary Clinton": 0.894,
+	    "Donald Trump": 0.106
+	},
+	"PA": {
+	    "Hillary Clinton": 0.714,
+	    "Donald Trump": 0.285
+	},
+	"RI": {
+	    "Hillary Clinton": 0.811,
+	    "Donald Trump": 0.188
+	},
+	"SC": {
+	    "Hillary Clinton": 0.099,
+	    "Donald Trump": 0.901
+	},
+	"SD": {
+	    "Hillary Clinton": 0.098,
+	    "Donald Trump": 0.899
+	},
+	"TN": {
+	    "Hillary Clinton": 0.011,
+	    "Donald Trump": 0.988
+	},
+	"TX": {
+	    "Hillary Clinton": 0.094,
+	    "Donald Trump": 0.906
+	},
+	"UT": {
+	    "Hillary Clinton": 0.027,
+	    "Donald Trump": 0.970
+	},
+	"VA": {
+	    "Hillary Clinton": 0.761,
+	    "Donald Trump": 0.239
+	},
+	"VT": {
+	    "Hillary Clinton": 0.951,
+	    "Donald Trump": 0.048
+	},
+	"WA": {
+	    "Hillary Clinton": 0.933,
+	    "Donald Trump": 0.066
+	},
+	"WI": {
+	    "Hillary Clinton": 0.722,
+	    "Donald Trump": 0.277
+	},
+	"WV": {
+	    "Hillary Clinton": 0.020,
+	    "Donald Trump": 0.979
+	},
+	"WY": {
+	    "Hillary Clinton": 0.017,
+	    "Donald Trump": 0.980
+	}
+    }
+}
